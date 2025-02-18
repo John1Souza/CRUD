@@ -1,5 +1,5 @@
 /* You can add global styles to this file, and also import other style files */
-@import "../src/styles/variables.scss";
+@use "../src/styles/variables.scss" as vars;
 
 * {
     box-sizing: border-box;
@@ -8,6 +8,7 @@
 }
 
 body {
-    background-color: $primary;
-    color: $text-color-white;
+    font-family: Poppins, sans-serif;
+    background-color: vars.$primary;
+    color: vars.$text-color-white;
 }
