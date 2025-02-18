@@ -1,0 +1,15 @@
+
+<div class="lista-transacoes">
+  <div
+    class="lista-transacoes-items"
+    *ngFor="let item of transacaoItems"
+  >
+    <img [src]="getIconPath(item)" />
+    <div>
+      <p>Total {{item}}</p>
+      <h1>R$ 999.999</h1>
+    </div>
+    <span>Porcentagem {{item}}</span>
+  </div>
+</div>
+

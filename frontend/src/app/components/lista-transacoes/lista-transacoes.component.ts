@@ -11,6 +11,11 @@ import { CommonModule } from '@angular/common';
 export class ListaTransacoesComponent implements OnInit {
   transacoes: any[] = [];
 
+  transacaoItems: string[] = [
+    'Entrada',
+    'Saida'
+  ];
+
   constructor(private transacaoService: TransacaoService) {}
   excluir() {}
 
@@ -18,5 +23,13 @@ export class ListaTransacoesComponent implements OnInit {
     this.transacaoService.listar().subscribe((data) => {
       this.transacoes = data;
     });
+  }
+
+  getIconPath(transacaoItems: string): string {
+    const iconMap: { [key: string]: string } = {
+      Entrada: '/svg/entrada.svg',
+      Saida: '/svg/saida.svg',
+    };
+    return iconMap[transacaoItems] || '';
   }
 }

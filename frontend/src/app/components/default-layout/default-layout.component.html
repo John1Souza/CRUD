@@ -1,4 +1,7 @@
 <main>
+  <div (click)="toggleActive()" class="chevronRight">
+    <img src="svg/chevronRight.svg"/>
+  </div>
   <section class="menu-section">
     <div class="logo">
       <img src="svg/trending.svg" />
@@ -14,9 +17,23 @@
       </li>
     </ul>
   </section>
+  <section class="menu-section-hidden" *ngIf="isActive">
+    <div class="logo">
+      <img src="svg/trending.svg" />
+      <h1>CRUD</h1>
+    </div>
+    <ul class="lista-opcoes">
+      <li
+        *ngFor="let item of menuItems"
+        (click)="setActiveMenu(item)"
+        [ngClass]="{ active: activeMenu === item }"
+      >
+        <img [src]="getIconPath(item)" fill="#000" />{{ item }}
+      </li>
+    </ul>
+  </section>
   <section class="main-section">
-    <h1>You Should Move It!</h1>
-    <img />
+    <app-card-transacao></app-card-transacao>
     <app-lista-transacoes></app-lista-transacoes>
   </section>
 </main>

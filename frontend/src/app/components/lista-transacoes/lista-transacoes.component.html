@@ -1,8 +1,40 @@
-<
-<table>
+
+
+<div class="transacoes">
+  <div class="botoes-transacoes">
+    <div
+      class="botoes-transacoes-items"
+      *ngFor="let item of transacaoItems"
+    >
+      <img [src]="getIconPath(item)" />
+      <button id="item">
+        Nova {{item}}
+      </button >
+    </div>
+  </div>
+  <table class="tabela-transacoes">
+    <tr>
+      <td>Descricao</td>
+      <td>Valor</td>
+      <td>Tipo</td>
+      <td>Data de Criação</td>
+    </tr>
+    <tr *ngFor="let transacao of transacoes">
+      <td>{{ transacao.descricao }}</td>
+      <td>{{ transacao.valor }}</td>
+      <td>{{ transacao.tipo }}</td>
+      <td>{{ transacao.criacao }}</td>
+      <td><button (click)="excluir()">Excluir</button></td>
+    </tr>
+  </table>
+</div>
+
+<!-- <table>
   <tr *ngFor="let transacao of transacoes">
     <td>{{ transacao.descricao }}</td>
     <td>{{ transacao.valor }}</td>
-    <td><button (click)="excluir(transacao.id)">Excluir</button></td>
+    <td>{{ transacao.tipo }}</td>
+    <td>{{ transacao.criacao }}</td>
+    <td><button (click)="excluir()">Excluir</button></td>
   </tr>
-</table>
+</table> -->
