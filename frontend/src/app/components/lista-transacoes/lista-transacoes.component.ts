@@ -4,9 +4,9 @@ import { NgFor } from '@angular/common';
 
 @Component({
   selector: 'app-lista-transacoes',
-  imports: [NgFor],
+  imports: [],
   templateUrl: './lista-transacoes.component.html',
-  styleUrl: './lista-transacoes.component.scss'
+  styleUrl: './lista-transacoes.component.scss',
 })
 export class ListaTransacoesComponent implements OnInit {
   transacoes: any[] = [];
@@ -14,7 +14,7 @@ export class ListaTransacoesComponent implements OnInit {
   constructor(private transacaoService: TransacaoService) {}
 
   ngOnInit() {
-    this.transacaoService.listar().subscribe(data => {
+    this.transacaoService.listar().subscribe((data) => {
       this.transacoes = data;
     });
   }
