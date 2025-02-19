@@ -15,4 +15,9 @@ class Transacao extends Model
         'tipo',
         'tipo_transacao_id'
     ];
+
+    public function tipoTransacao()
+    {
+        return $this->belongsTo(TipoTransacao::class, 'tipo_transacao_id');
+    }
 }

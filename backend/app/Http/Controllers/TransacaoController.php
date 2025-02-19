@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Http\Controllers;
+
+use App\Models\TipoTransacao;
 use App\Models\Transacao;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -38,10 +40,10 @@ class TransacaoController extends Controller
     public function update(Request $request, $id): JsonResponse
     {
         $data = $request->validate([
-            'descricao' => 'required|string',
-            'valor' => 'required|numeric',
-            'tipo' => 'required|in:receita,despesa',
-            'tipo_transacao_id' => 'required|exists:tipo_transacao,id',
+            'descricao' => 'sometimes|string',
+            'valor' => 'sometimes|numeric',
+            'tipo' => 'sometimes|in:receita,despesa',
+            'tipo_transacao_id' => 'sometimes|exists:tipo_transacao,id',
         ]);
 
         if (isset($data['tipo']) && $data['tipo'] === 'despesa') {
@@ -57,5 +59,11 @@ class TransacaoController extends Controller
     {
         $transacao->delete();
         return response()->noContent();
+    }
+
+    public function filterByType($tipo)
+    {
+        $tipoId = TipoTransacao::where('nome', $tipo)->firstOrFail()->id;
+        return Transacao::where('tipo_transacao_id', $tipoId)->with('tipo')->get();
     }
 }

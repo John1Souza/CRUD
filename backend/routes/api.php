@@ -6,4 +6,4 @@ use Illuminate\Support\Facades\Route;
 
 Route::apiResource('transacoes', TransacaoController::class);
 Route::apiResource('tipo_transacoes', TipoTransacaoController::class);
-Route::get('/tipo_transacoes', [TipoTransacaoController::class, 'index']);
+Route::get('/transactions/filter/{type}', [TransacaoController::class, 'filterByType']);

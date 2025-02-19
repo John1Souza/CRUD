@@ -1,5 +1,5 @@
 export interface Transacao {
-  id?: number;
+  id: number;
   valor: number;
   tipo: 'receita' | 'despesa';
   descricao: string;

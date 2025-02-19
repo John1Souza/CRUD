@@ -7,7 +7,7 @@ CREATE TABLE tipo_transacao (
     nome VARCHAR(255) NOT NULL
 );
 
-CREATE TABLE transactions (
+CREATE TABLE transacao (
     id INT AUTO_INCREMENT PRIMARY KEY,
     description VARCHAR(255) NOT NULL,
     amount DECIMAL(10, 2) NOT NULL,

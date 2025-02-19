@@ -4,6 +4,7 @@ import { TransacaoService } from '../../services/transacao.service';
 import { CommonModule } from '@angular/common';
 import { Transacao, TipoTransacao } from '../../services/transacao.model';
 import { ActivatedRoute, Router } from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
 
 @Component({
   selector: 'app-lista-transacoes',
@@ -12,16 +13,23 @@ import { ActivatedRoute, Router } from '@angular/router';
   styleUrl: './lista-transacoes.component.scss',
 })
 export class ListaTransacoesComponent implements OnInit {
-  transacoes: any[] = [];
+  transacaoEditando: any = null;
+  transacoes: Transacao[] = [];
   tipoTransacoes: TipoTransacao[] = [];
   meuFormulario!: FormGroup;
+  transacaoForm!: FormGroup;
   tipos = ['receita', 'despesa'];
   isVisible: boolean = false;
 
   constructor(
+    private fb: FormBuilder,
+    private route: ActivatedRoute,
+    private router: Router,
     private transacaoService: TransacaoService,
-    private fb: FormBuilder) {
+
+  ) {
     this.meuFormulario = this.fb.group({
+
       tipo: ['receita', Validators.required],
       valor: ['', Validators.required],
       descricao: ['', Validators.required],
@@ -36,8 +44,18 @@ export class ListaTransacoesComponent implements OnInit {
 
   ngOnInit() {
     this.listarTransacoes();
-
     this.carregarTiposDeTransacoes();
+  }
+
+  carregarTransacao(id: number) {
+    this.transacaoService.listarTransacao(id).subscribe((transaction) => {
+      this.meuFormulario.patchValue({
+        descricao: transaction.descricao,
+        valor: Math.abs(transaction.valor),
+        tipo: transaction.valor >= 0 ? 'receita' : 'despesa',
+        tipo_transacao_id: transaction.tipo_transacao_id,
+      });
+    });
   }
 
   carregarTiposDeTransacoes(): void {
@@ -57,19 +75,49 @@ export class ListaTransacoesComponent implements OnInit {
       this.transacoes = data;
   })};
 
+  editarTransacao(transacoes: any) {
+    this.transacaoEditando = transacoes;
+    this.transacaoForm.patchValue({
+      descricao: transacoes.descricao,
+      valor: Math.abs(transacoes.valor),
+      tipo: transacoes.valor >= 0 ? 'receita' : 'despesa',
+      tipo_transacao_id: transacoes.tipo_transacao_id,
+    });
+  }
+
+  salvarEdicao() {
+    if (this.transacaoForm.valid) {
+      const formValue = this.transacaoForm.value;
+
+      if (formValue.tipo === 'despesa') {
+        formValue.amount = -Math.abs(formValue.amount);
+      }
+
+      this.transacaoService.atualizar(this.transacaoEditando.id, formValue).subscribe(() => {
+        this.listarTransacoes();
+        this.cancelarEdicao();
+      });
+    }
+  }
+
+  cancelarEdicao() {
+    this.transacaoEditando = null; // Fecha o formulário
+    this.transacaoForm.reset(); // Limpa o formulário
+  }
+
 
 
   excluir(id: number): void {
     if (confirm('Tem certeza que deseja excluir esta Transação?')) {
-      this.transacaoService.excluir(id).subscribe(
-        {
+      this.transacaoService.excluir(id).subscribe({
           next: () => {
-          this.transacoes = this.transacoes.filter(transacao => transacao.id !== id);
-          alert('Transação excluído com sucesso!');
+            // this.transacoes = this.transacoes.filter(transacao => transacao.id !== id);
+            console.log(`Transação ${id} excluída, recarregando lista...`);
+            this.listarTransacoes();
+            alert('Transação excluído com sucesso!');
         },
         error: (erro) => console.error(erro)
-      }
-      );
+      });
     }
   }
 
@@ -89,23 +137,9 @@ export class ListaTransacoesComponent implements OnInit {
       if (formData.tipo === 'despesa') {
         formData.valor = -Math.abs(formData.valor);
       }
-
-      const transacao: Transacao = {
-        valor: formData.valor,
-        tipo: formData.tipo,
-        descricao: formData.descricao,
-        tipo_transacao_id: formData.tipo_transacao_id,
-      }
-
-
-      this.transacaoService.criar(transacao).subscribe({
-          next: () => {
-              alert('Produto criado com sucesso!');
-              this.meuFormulario.reset();
-            },
-            error: (err) => console.error('Erro ao criar novo item', err)
-        }
-      );
+      this.transacaoService.criar(formData).subscribe(() => {
+        this.router.navigate(['/transacoes']);
+      });
     }
   }
 }
