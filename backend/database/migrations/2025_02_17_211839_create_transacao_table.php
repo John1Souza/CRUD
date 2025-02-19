@@ -13,7 +13,8 @@ return new class extends Migration
             $table->id();
             $table->string('descricao');
             $table->decimal('valor', 10, 2);
-            $table->foreignId('tipo_id')->constrained('tipo_transacao');
+            $table->enum('tipo', ['receita', 'despesa']);
+            $table->foreignId('tipo_transacao_id')->constrained('tipo_transacao');
             $table->timestamps();
         });
     }

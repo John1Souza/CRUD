@@ -1,27 +1,38 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { TipoTransacao, Transacao } from './transacao.model';
 
 @Injectable({
   providedIn: 'root'
 })
+
 export class TransacaoService {
-  private apiUrl = 'http://127.0.0.1:8000/api/transacoes';
+  private apiUrl = 'http://127.0.0.1:8000/api';
 
   constructor(private http: HttpClient) {}
 
-  listar() {
+  listarTransacao(id: number) {
     return this.http.get<any[]>(this.apiUrl);
   }
 
-  criar(transacao: any) {
-    return this.http.post(this.apiUrl, transacao);
+  criar(transacao: Transacao): Observable<Transacao> {
+    return this.http.post<Transacao>(`${this.apiUrl}/transacoes`, transacao);
   }
 
-  editar(id: number, transacao: any) {
-    return this.http.put(`${this.apiUrl}/${id}`, transacao);
+  listarTransacoes(): Observable<Transacao[]> {
+    return this.http.get<Transacao[]>(`${this.apiUrl}/transacoes`);
   }
 
-  excluir(id: number) {
-    return this.http.delete(`${this.apiUrl}/${id}`);
+  atualizar(id: number, transacao: Transacao): Observable<Transacao> {
+    return this.http.put<Transacao>(`${`${this.apiUrl}/transacoes`}/${id}`, transacao);
+  }
+
+  excluir(id: number): Observable<void> {
+    return this.http.delete<void>(`${`${this.apiUrl}/transacoes`}/${id}`);
+  }
+
+  getTransactionTypes(): Observable<TipoTransacao[]> {
+    return this.http.get<TipoTransacao[]>(`${this.apiUrl}/tipo_transacoes`);
   }
 }

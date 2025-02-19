@@ -1,40 +1,60 @@
-
-
 <div class="transacoes">
   <div class="botoes-transacoes">
     <div
       class="botoes-transacoes-items"
-      *ngFor="let item of transacaoItems"
+      *ngFor="let item of tipos"
     >
       <img [src]="getIconPath(item)" />
-      <button id="item">
+      <button (click)="toggleDisplay()">
         Nova {{item}}
       </button >
     </div>
   </div>
   <table class="tabela-transacoes">
-    <tr>
+    <tr class="cabecalho">
       <td>Descricao</td>
       <td>Valor</td>
       <td>Tipo</td>
-      <td>Data de Criação</td>
+      <td>Editar/Excluir</td>
     </tr>
     <tr *ngFor="let transacao of transacoes">
-      <td>{{ transacao.descricao }}</td>
-      <td>{{ transacao.valor }}</td>
       <td>{{ transacao.tipo }}</td>
-      <td>{{ transacao.criacao }}</td>
-      <td><button (click)="excluir()">Excluir</button></td>
+      <td>{{ transacao.valor | currency }}</td>
+      <td>{{ transacao.descricao }}</td>
+      <td id="botoes">
+        <button id="editar" (click)="editar(transacao.id, transacao)">Editar</button>
+        <button id="excluir" (click)="excluir(transacao.id)">Excluir</button>
+      </td>
     </tr>
   </table>
-</div>
 
-<!-- <table>
-  <tr *ngFor="let transacao of transacoes">
-    <td>{{ transacao.descricao }}</td>
-    <td>{{ transacao.valor }}</td>
-    <td>{{ transacao.tipo }}</td>
-    <td>{{ transacao.criacao }}</td>
-    <td><button (click)="excluir()">Excluir</button></td>
-  </tr>
-</table> -->
+  <form [formGroup]="meuFormulario" (ngSubmit)="onSubmit()" [ngStyle]="{'display': isVisible ? 'flex' : 'none'}" class="formulario-transacao">
+    <!-- -->
+    <div>
+      <label for="tipo">Tipo:</label><br>
+      <select id="tipo" name="tipo" formControlName="tipo">
+          <option *ngFor="let tipo of tipos" [value]="tipo">
+            {{ tipo === 'receita' ? 'Receita' : 'Despesa' }}
+          </option>
+      </select>
+    </div>
+    <div>
+      <label for="tipo_transacao_id">Categoria:</label>
+      <select id="tipo_transacao_id" formControlName="tipo_transacao_id" required>
+        <option value="" disabled selected>--Selecione uma categoria--</option>
+        <option *ngFor="let categoria of tipoTransacoes" [value]="categoria.id">
+            {{ categoria.nome }}
+        </option>
+      </select>
+    </div>
+    <div >
+      <label for="valor">Valor:</label><br>
+      <input type="number" id="valor" name="valor" formControlName="valor">
+    </div>
+    <div>
+      <label for="descricao">Descrição:</label><br>
+      <textarea type="text" id="descricao" name="descricao" formControlName="descricao"></textarea>
+    </div>
+    <button id="criar" type="submit" [disabled]="meuFormulario.invalid">Criar</button>
+  </form>
+</div>

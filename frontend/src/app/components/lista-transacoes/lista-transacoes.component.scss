@@ -3,19 +3,54 @@
 
 .transacoes {
   width: 100%;
+  height: 80vh;
   background-color: vars.$secondary;
   padding: 10px;
   display: flex;
   flex-direction: column;
+  border-radius: 16px;
+  position: relative;
 
   .tabela-transacoes{
     width: 100%;
     padding: 10px;
 
+    .cabecalho {
+      color: vars.$bg-dark;
+      font-weight: 700;
+    }
+
+    #editar {
+      border: none;
+      border-radius: 5px;
+      background-color: blue;
+      padding: .35rem;
+      color: #fff;
+    }
+    #editar:hover{
+      opacity: .85;
+      cursor: pointer;
+    }
+
+    #excluir {
+      border: none;
+      border-radius: 5px;
+      background-color: red;
+      padding: .35rem;
+      color: #fff;
+    }
+    #excluir:hover{
+      opacity: .85;
+      cursor: pointer;
+    }
+
+    #botoes {
+      display: flex;
+      gap: 10px;
+    }
   }
 
   .botoes-transacoes {
-    width: 30%;
     display: flex;
     gap: 10px;
 
@@ -27,14 +62,100 @@
       justify-content: space-between;
       background-color: vars.$bg-dark;
       border-radius: 16px;
-      padding: .5rem;
+      padding: 1rem;
+
+      button {
+        font-size: 1rem;
+        color: #fff;
+        background-color: transparent;
+        border: none;
+      }
 
       img {
         width: 2rem;
       }
     }
+    .botoes-transacoes-items:hover {
+      opacity: .75;
+      cursor: pointer;
+    }
   }
 
+  .formulario-transacao {
+    width: 500px;
+    flex-direction: column;
+    justify-content: center;
+    padding: 20px;
+    background-color: vars.$bg-dark;
+    position:absolute;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%);
+    border-radius: 16px;
+
+    div {
+      width: 100%;
+    }
+
+    input, select {
+      width: 100%;
+      height: 30px;
+      margin-bottom: 20px;
+      border: 1px solid vars.$destaque;
+      border-radius: 5px;
+      outline: 0;
+      padding: .25rem;
+    }
+
+    #descricao {
+      width: 100%;
+      height: 150px;
+      text-align: start;
+      margin-bottom: 20px;
+      outline: 0;
+    }
+
+    #criar{
+      width: 50%;
+      height: 30px;
+      background-color: vars.$destaque;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+    }
+    #criar:hover {
+      opacity: .75;
+      cursor: pointer;
+    }
+
+
+  }
+
+}
+
+@media (max-width: 767px) {
+  .botoes-transacoes {
+    width: 100%;
+    .botoes-transacoes-items {
+
+      img {
+        width: 0.5rem;
+      }
+    }
+  }
+}
+
+@media (min-width: 768px) {
+  .botoes-transacoes {
+    width: 100%;
+    max-width: 70%;
+    .botoes-transacoes-items {
+
+      img {
+        width: 0.5rem;
+      }
+    }
+  }
 }
 
 

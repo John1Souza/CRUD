@@ -1,27 +1,61 @@
 <?php
 
 namespace App\Http\Controllers;
-
 use App\Models\Transacao;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class TransacaoController extends Controller
 {
-    public function index() {
+    public function index()
+    {
+        //return Transacao::with('TipoTransacao')->get();
         return Transacao::all();
     }
 
-    public function store(Request $request) {
-        return Transacao::create($request->all());
+    public function store(Request $request)
+    {
+        $data = $request->validate([
+            'descricao' => 'required|string',
+            'valor' => 'required|numeric',
+            'tipo' => 'required|in:receita,despesa',
+            'tipo_transacao_id' => 'required|exists:tipo_transacao,id',
+        ]);
+
+        if ($data['tipo'] === 'despesa') {
+            $data['valor'] = -abs($data['valor']);
+        }
+
+        return Transacao::create($data);
     }
 
-    public function update(Request $request, $id) {
+    public function show($id): JsonResponse
+    {
         $transacao = Transacao::findOrFail($id);
-        $transacao->update($request->all());
-        return $transacao;
+        return response()->json($transacao);
     }
 
-    public function destroy($id) {
-        return Transacao::destroy($id);
+    public function update(Request $request, $id): JsonResponse
+    {
+        $data = $request->validate([
+            'descricao' => 'required|string',
+            'valor' => 'required|numeric',
+            'tipo' => 'required|in:receita,despesa',
+            'tipo_transacao_id' => 'required|exists:tipo_transacao,id',
+        ]);
+
+        if (isset($data['tipo']) && $data['tipo'] === 'despesa') {
+            $data['valor'] = -abs($data['valor']);
+        }
+
+        $transacao = Transacao::findOrFail($id);
+        $transacao->update($data);
+        return response()->json(['message' => 'Transação atualizada com sucesso', 'data' => $transacao], 200);
+    }
+
+    public function destroy(Transacao $transacao)
+    {
+        $transacao->delete();
+        return response()->noContent();
     }
 }

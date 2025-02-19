@@ -5,11 +5,10 @@
     *ngFor="let item of transacaoItems"
   >
     <img [src]="getIconPath(item)" />
-    <div>
+    <div class="valores">
       <p>Total {{item}}</p>
-      <h1>R$ 999.999</h1>
+      <h2>R$ 999.999</h2>
     </div>
-    <span>Porcentagem {{item}}</span>
   </div>
 </div>
 

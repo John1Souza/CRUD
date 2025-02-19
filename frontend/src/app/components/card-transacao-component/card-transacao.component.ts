@@ -9,14 +9,14 @@ import { Component } from '@angular/core';
 })
 export class CardTransacaoComponent {
   transacaoItems: string[] = [
-    'Entrada',
-    'Saida'
+    'receita',
+    'despesa'
   ];
 
   getIconPath(transacaoItems: string): string {
     const iconMap: { [key: string]: string } = {
-      Entrada: '/svg/entrada.svg',
-      Saida: '/svg/saida.svg',
+      receita: '/svg/receita.svg',
+      despesa: '/svg/despesa.svg',
     };
     return iconMap[transacaoItems] || '';
   }
