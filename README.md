@@ -51,12 +51,7 @@ Este projeto é uma aplicação web para gerenciar transações financeiras, per
 
   Crie o banco de dados (se necessário):
 
-    CREATE DATABASE nome_do_banco;
-
-  Saia do MySQL (CTRL + D) e execute o arquivo SQL:
-
-    mysql -u root -p nome_do_banco < caminho/do/arquivo.sql
-  Execute o script SQL localizado em banco/banco.sql para criar as tabelas necessárias.
+    CREATE DATABASE transacoes_financeiras;
       
   #### Configurar o Backend:
   - Navegue ate a pasta backend:
