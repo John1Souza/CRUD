@@ -38,16 +38,27 @@ Este projeto é uma aplicação web para gerenciar transações financeiras, per
   - MySQL
 
 ## Passos para Configuração
-  1. Clonar o Repositório
+  #### Clonar o Repositório
   
     git clone https://github.com/John1Souza/CRUD.git
     cd CRUD
   
-  2. Configurar o Banco de Dados:
+  #### Configurar o Banco de Dados:
   - Crie um banco de dados MySQL chamado transacoes_financeiras
-  - Execute o script SQL localizado em banco/banco.sql para criar as tabelas necessárias.
+  - Abra o terminal e conecte-se ao MySQL:
+
+        mysql -u root -p
+
+  Crie o banco de dados (se necessário):
+
+    CREATE DATABASE nome_do_banco;
+
+  Saia do MySQL (CTRL + D) e execute o arquivo SQL:
+
+    mysql -u root -p nome_do_banco < caminho/do/arquivo.sql
+  Execute o script SQL localizado em banco/banco.sql para criar as tabelas necessárias.
       
-  3. Configurar o Backend:
+  #### Configurar o Backend:
   - Navegue ate a pasta backend:
 
         cd backend
@@ -61,7 +72,7 @@ Este projeto é uma aplicação web para gerenciar transações financeiras, per
           DB_CONNECTION=mysql
           DB_HOST=127.0.0.1
           DB_PORT=3306
-          DB_DATABASE=finance_manager
+          DB_DATABASE=transacoes_financeiras
           DB_USERNAME=root
           DB_PASSWORD=sua_senha
       
@@ -73,7 +84,7 @@ Este projeto é uma aplicação web para gerenciar transações financeiras, per
 
           php artisan serve
 
-  4. Configurar o Frontend:
+  #### Configurar o Frontend:
   - Navegue até a pasta frontend:
 
         cd ../frontend
@@ -86,7 +97,7 @@ Este projeto é uma aplicação web para gerenciar transações financeiras, per
 
         ng serve
 
-5. Acessar a Aplicação:
+#### Acessar a Aplicação:
 - Abra o navegador e acesse http://localhost:4200.
      
 ## Estrutura do Projeto
