@@ -2,20 +2,20 @@
 Este projeto é uma aplicação web para gerenciar transações financeiras, permitindo o cadastro, listagem, edição e exclusão de receitas e despesas. A aplicação utiliza um único formulário para registrar tanto receitas quanto despesas, com um campo que diferencia entre despesa (valor negativo) e receita (valor positivo).
 
 ## Funcionalidades
-  1. Cadastro de Transações:
+  #### Cadastro de Transações:
   - Um único formulário para registrar receitas e despesas.
   - Campo para indicar se a transação é uma receita ou despesa.
   - Valor negativo para despesas e positivo para receitas.
   - Categorização das transações (ex.: Aluguel, Pagamento, Prolabore).
 
- 2. Cadastro de Transações:
+ #### Cadastro de Transações:
   - Listar todas as transações.
   - Filtrar transações por tipo (receita ou despesa).
 
- 3. Edição de Transações:
+ #### Edição de Transações:
   - Permitir a edição das transações cadastradas.
 
- 4. Exclusão de Transações:
+ #### Exclusão de Transações:
   - Permitir a exclusão de transações cadastradas.
 
 ## Tecnologias Utilizadas
