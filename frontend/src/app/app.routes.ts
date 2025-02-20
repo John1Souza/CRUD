@@ -7,7 +7,6 @@ import { DefaultLayoutComponent } from './components/default-layout/default-layo
 export const routes: Routes = [
   { path: '', redirectTo: '/default', pathMatch: 'full' },
   { path: 'default', component: DefaultLayoutComponent },
-  { path: 'transacoes', component: ListaTransacoesComponent },
   // { path: 'transacoes/criar', component: TransactionFormComponent },
   // { path: 'transacoes/editar/:id', component: TransactionFormComponent },
 ];

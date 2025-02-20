@@ -2,12 +2,28 @@
 <div class="lista-transacoes">
   <div
     class="lista-transacoes-items"
-    *ngFor="let item of transacaoItems"
   >
-    <img [src]="getIconPath(item)" />
+    <img src="/svg/receita.svg" />
     <div class="valores">
-      <p>Total {{item}}</p>
-      <h2>R$ 999.999</h2>
+      <p>Total Receita</p>
+      <h2>{{ totalReceita | currency:'BRL'}}</h2>
+    </div>
+  </div>
+  <div
+    class="lista-transacoes-items"
+  >
+    <img src="/svg/despesa.svg" />
+    <div class="valores">
+      <p>Total Despesas</p>
+      <h2>{{ totalDespesa | currency:'BRL'}}</h2>
+    </div>
+  </div>
+  <div
+    class="lista-transacoes-items"
+  >
+    <div class="valores">
+      <p>Total Transações</p>
+      <h2>{{ totalTransacoes | currency:'BRL' }}</h2>
     </div>
   </div>
 </div>

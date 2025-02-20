@@ -11,6 +11,11 @@
   border-radius: 16px;
   position: relative;
 
+  th, td {
+    border: 1px solid;
+    padding: .15rem;
+    font-size: .85rem;
+  }
   .tabela-transacoes{
     width: 100%;
     padding: 10px;
@@ -18,6 +23,7 @@
     .cabecalho {
       color: vars.$bg-dark;
       font-weight: 700;
+      text-align: center;
     }
 
     #editar {
@@ -28,6 +34,18 @@
       color: #fff;
     }
     #editar:hover{
+      opacity: .85;
+      cursor: pointer;
+    }
+
+    #salvar {
+      border: none;
+      border-radius: 5px;
+      background-color: green;
+      padding: .35rem;
+      color: #fff;
+    }
+    #salvar:hover{
       opacity: .85;
       cursor: pointer;
     }
@@ -48,6 +66,23 @@
       display: flex;
       gap: 10px;
     }
+    #select_opt {
+      border: none;
+      padding: 0.15rem;
+      background-color: vars.$destaque;
+      color: #fff;
+    }
+    #filter {
+      border-radius: 5px;
+      border: none;
+      padding: 0.2rem;
+      background-color: vars.$secondary;
+      font-size: 1rem;
+      font-weight: 700;
+    }
+    #filter:hover {
+      background-color: vars.$destaque;
+    }
   }
 
   .botoes-transacoes {
@@ -55,7 +90,6 @@
     gap: 10px;
 
     .botoes-transacoes-items {
-      width: 100%;
       height: 50px;
       display: flex;
       align-items: center;
@@ -63,6 +97,7 @@
       background-color: vars.$bg-dark;
       border-radius: 16px;
       padding: 1rem;
+      gap: 1rem;
 
       button {
         font-size: 1rem;
@@ -135,9 +170,12 @@
 
 @media (max-width: 767px) {
   .botoes-transacoes {
-    width: 100%;
+
     .botoes-transacoes-items {
 
+      button {
+
+      }
       img {
         width: 0.5rem;
       }
@@ -147,10 +185,10 @@
 
 @media (min-width: 768px) {
   .botoes-transacoes {
-    width: 100%;
-    max-width: 70%;
     .botoes-transacoes-items {
+      button {
 
+      }
       img {
         width: 0.5rem;
       }

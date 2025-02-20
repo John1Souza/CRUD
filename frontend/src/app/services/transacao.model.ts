@@ -6,6 +6,9 @@ export interface Transacao {
   tipo_transacao_id?: number;
   created_at?: string;
   updated_at?: string;
+  editando: boolean;
+  total_receitas: number;
+  total_despesas: number;
 };
 
 export interface TipoTransacao {

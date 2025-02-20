@@ -39,4 +39,17 @@ export class TransacaoService {
   filterByType(tipo: string): Observable<Transacao[]> {
     return this.http.get<Transacao[]>(`${this.apiUrl}/transacoes/filter/${tipo}`);
   }
+
+  // getTotalReceitas(): Observable<{total_receitas: number}> {
+  //   return this.http.get<{total_receitas: number}>(`${this.apiUrl}/transacoes/total_receitas`);
+  // }
+  getTotalReceitas(): Observable<{ total_receitas: number }> {
+      const url = `${this.apiUrl}/transacoes/total_receitas`;
+      console.log('URL chamada:', url);
+      return this.http.get<{ total_receitas: number }>(url);
+  }
+
+  getTotalDespesas(): Observable<{ total_despesas: number }> {
+    return this.http.get<{ total_despesas: number }>(`${this.apiUrl}/transacoes/total_despesas`);
+  }
 }

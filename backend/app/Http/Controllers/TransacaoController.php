@@ -11,8 +11,8 @@ class TransacaoController extends Controller
 {
     public function index()
     {
-        //return Transacao::with('TipoTransacao')->get();
-        return Transacao::all();
+        $transacoes = Transacao::with('tipoTransacao')->get();
+        return response()->json($transacoes);
     }
 
     public function store(Request $request)
@@ -55,15 +55,42 @@ class TransacaoController extends Controller
         return response()->json(['message' => 'Transação atualizada com sucesso', 'data' => $transacao], 200);
     }
 
-    public function destroy(Transacao $transacao)
+    public function destroy($id)
     {
+        $transacao = Transacao::find($id);
+
+        if (!$transacao) {
+            return response()->json(['message' => 'Transação não encontrada'], 404);
+        }
+
         $transacao->delete();
-        return response()->noContent();
+
+        $check = Transacao::find($id);
+
+        if ($check) {
+            return response()->json(['message' => 'O item ainda existe!'], 500);
+        }
+
+        return response()->json(['message' => 'Transação excluída com sucesso'], 200);
     }
 
     public function filterByType($tipo)
     {
-        $tipoId = TipoTransacao::where('nome', $tipo)->firstOrFail()->id;
-        return Transacao::where('tipo_transacao_id', $tipoId)->with('tipo')->get();
+
+        $transacoes = Transacao::where('tipo', $tipo)->get();
+
+        return response()->json($transacoes);
+    }
+
+    public function getTotalReceitas()
+    {
+        $totalReceitas = Transacao::where('tipo', "receita")->sum('valor');
+        return response()->json(['total_receitas' => $totalReceitas]);
+    }
+
+    public function getTotalDespesas()
+    {
+        $totalDespesas = Transacao::where('tipo', 'despesa')->sum('valor');
+        return response()->json(['total_despesas' => $totalDespesas]);
     }
 }

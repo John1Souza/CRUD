@@ -1,19 +1,19 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators, FormsModule} from '@angular/forms';
 import { TransacaoService } from '../../services/transacao.service';
 import { CommonModule } from '@angular/common';
 import { Transacao, TipoTransacao } from '../../services/transacao.model';
 import { ActivatedRoute, Router } from '@angular/router';
-import { RouterModule, Routes } from '@angular/router';
+
 
 @Component({
   selector: 'app-lista-transacoes',
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, FormsModule],
   templateUrl: './lista-transacoes.component.html',
   styleUrl: './lista-transacoes.component.scss',
 })
 export class ListaTransacoesComponent implements OnInit {
-  transacaoEditando: any = null;
+  editando: any = null;
   transacoes: Transacao[] = [];
   tipoTransacoes: TipoTransacao[] = [];
   meuFormulario!: FormGroup;
@@ -75,37 +75,35 @@ export class ListaTransacoesComponent implements OnInit {
       this.transacoes = data;
   })};
 
-  editarTransacao(transacoes: any) {
-    this.transacaoEditando = transacoes;
-    this.transacaoForm.patchValue({
-      descricao: transacoes.descricao,
-      valor: Math.abs(transacoes.valor),
-      tipo: transacoes.valor >= 0 ? 'receita' : 'despesa',
-      tipo_transacao_id: transacoes.tipo_transacao_id,
+  editar(transacoes: any) {
+    transacoes.editando = true;
+  }
+
+  salvar(transacoes: any) {
+    this.transacaoService.atualizar(transacoes.id, transacoes).subscribe(() => {
+        transacoes.editando = false;
     });
   }
 
-  salvarEdicao() {
-    if (this.transacaoForm.valid) {
-      const formValue = this.transacaoForm.value;
+  onFilterChange(event: Event): void {
+    const selectElement = event.target as HTMLSelectElement;
+    const tipoSelecionado = selectElement.value;
 
-      if (formValue.tipo === 'despesa') {
-        formValue.amount = -Math.abs(formValue.amount);
-      }
-
-      this.transacaoService.atualizar(this.transacaoEditando.id, formValue).subscribe(() => {
-        this.listarTransacoes();
-        this.cancelarEdicao();
+    if (tipoSelecionado && tipoSelecionado != 'Tipo') {
+      this.transacaoService.filterByType(tipoSelecionado).subscribe(
+        {
+          next: (transacoes: Transacao[]) => {
+                  this.transacoes = transacoes;
+          },
+        error: (error) => {
+          console.error('Erro ao filtrar transações:', error);
+        }
       });
+    } else {
+      // this.transacoes = [];
+      this.listarTransacoes();
     }
   }
-
-  cancelarEdicao() {
-    this.transacaoEditando = null; // Fecha o formulário
-    this.transacaoForm.reset(); // Limpa o formulário
-  }
-
-
 
   excluir(id: number): void {
     if (confirm('Tem certeza que deseja excluir esta Transação?')) {
@@ -121,14 +119,6 @@ export class ListaTransacoesComponent implements OnInit {
     }
   }
 
-  getIconPath(transacaoItems: string): string {
-    const iconMap: { [key: string]: string } = {
-      receita: '/svg/receita.svg',
-      despesa: '/svg/despesa.svg',
-    };
-    return iconMap[transacaoItems] || '';
-  }
-
   onSubmit() {
     if (this.meuFormulario.valid) {
       const formData = this.meuFormulario.value;
@@ -138,8 +128,10 @@ export class ListaTransacoesComponent implements OnInit {
         formData.valor = -Math.abs(formData.valor);
       }
       this.transacaoService.criar(formData).subscribe(() => {
-        this.router.navigate(['/transacoes']);
+        this.meuFormulario.reset();
+        this.listarTransacoes();
       });
+
     }
   }
 }

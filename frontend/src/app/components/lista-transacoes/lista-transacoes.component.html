@@ -2,72 +2,65 @@
   <div class="botoes-transacoes">
     <div
       class="botoes-transacoes-items"
-      *ngFor="let item of tipos"
       (click)="toggleDisplay()"
     >
-      <img [src]="getIconPath(item)" />
+      <img src="/svg/receita.svg" />
       <button>
-        Nova {{item}}
+        Novo
       </button >
     </div>
   </div>
   <table class="tabela-transacoes">
     <tr class="cabecalho">
-      <td>Tipo</td>
+      <td>
+        <select id="filter" (change)="onFilterChange($event)">
+          <option value="" selected>Tipo</option>
+          <option *ngFor="let tipo of tipos" [value]="tipo">{{ tipo }}</option>
+        </select>
+      </td>
       <td>Valor</td>
       <td>Categoria</td>
       <td>Descricao</td>
       <td>Editar/Excluir</td>
     </tr>
-    <tr *ngFor="let transacao of transacoes">
-      <td>{{ transacao.tipo }}</td>
-      <td>{{ transacao.valor | currency }}</td>
-      <td>{{ transacao.tipo_transacao_id }}</td>
-      <td>{{ transacao.descricao }}</td>
+    <tr *ngFor="let transacao of transacoes" >
+      <td *ngIf="transacao.editando">
+        <select id="select_opt" [(ngModel)]="transacao.tipo">
+          <option *ngFor="let t of tipos" [value]="t">{{ t }}</option>
+        </select>
+      </td>
+      <td *ngIf="!transacao.editando">
+        {{ transacao.tipo }}
+      </td>
+      <td *ngIf="transacao.editando">
+        <input id="select_opt" type="number" [(ngModel)]="transacao.valor">
+      </td>
+      <td *ngIf="!transacao.editando">
+        {{ transacao.valor | currency:'BRL' }}
+      </td>
+      <td *ngIf="transacao.editando">
+        <select id="select_opt" [(ngModel)]="transacao.tipo_transacao_id">
+          <option *ngFor="let cat of tipoTransacoes" [value]="cat.id">{{ cat.nome }}</option>
+        </select>
+      </td>
+      <td *ngIf="!transacao.editando">
+        {{ transacao.tipo_transacao_id == 1 ? 'Aluguel'
+            : transacao.tipo_transacao_id == 2 ? 'Pagamento'
+            : transacao.tipo_transacao_id == 3 ? 'Prolabore' : 'Outros'}}
+      </td>
+      <td *ngIf="transacao.editando">
+        <input id="select_opt" [(ngModel)]="transacao.descricao">
+      </td>
+      <td *ngIf="!transacao.editando">
+        {{ transacao.descricao }}
+      </td>
       <td id="botoes">
-        <button id="editar" (click)="editarTransacao(transacao)">Editar</button>
+        <button id="editar" *ngIf="!transacao.editando" (click)="editar(transacao)">Editar</button>
+        <button id="salvar" *ngIf="transacao.editando" (click)="salvar(transacao)">Salvar</button>
         <button id="excluir" (click)="excluir(transacao.id)">Excluir</button>
       </td>
     </tr>
   </table>
-
-  <!-- Formulário de edição inline -->
-  <div *ngIf="transacaoEditando">
-    <h3>Editar Transação</h3>
-    <form [formGroup]="transacaoForm" (ngSubmit)="salvarEdicao()">
-      <div>
-        <label for="descricao">Descrição:</label>
-        <input id="descricao" formControlName="descricao" />
-      </div>
-
-      <div>
-        <label for="valor">Valor:</label>
-        <input id="valor" type="number" formControlName="valor" />
-      </div>
-
-      <div>
-        <label>Tipo:</label>
-        <label>
-          <input type="radio" formControlName="tipo" value="receita" /> Receita
-        </label>
-        <label>
-          <input type="radio" formControlName="tipo" value="despesa" /> Despesa
-        </label>
-      </div>
-
-      <div>
-        <label for="tipo_transacao_id">Categoria:</label>
-        <select id="tipo_transacao_id" formControlName="tipo_transacao_id">
-          <option *ngFor="let tipo of tipoTransacoes" [value]="tipo.id">
-            {{ tipo.nome }}
-          </option>
-        </select>
-      </div>
-
-      <button type="submit">Salvar</button>
-      <button type="button" (click)="cancelarEdicao()">Cancelar</button>
-    </form>
-  </div>
 
   <form [formGroup]="meuFormulario" (ngSubmit)="onSubmit()" [ngStyle]="{'display': isVisible ? 'flex' : 'none'}" class="formulario-transacao">
     <!-- -->
@@ -96,7 +89,6 @@
       <label for="descricao">Descrição:</label><br>
       <textarea type="text" id="descricao" name="descricao" formControlName="descricao"></textarea>
     </div>
-    <button id="criar" type="submit" [disabled]="meuFormulario.invalid">Criar</button>
-    <!-- <button id="criar" type="submit">{{ isEditMode ? 'Salvar Alterações' : 'Criar' }}</button> -->
+    <button id="criar" type="submit" [disabled]="meuFormulario.invalid" (click)="toggleDisplay()">Criar</button>
   </form>
 </div>
