@@ -38,4 +38,11 @@ Este projeto é uma aplicação web para gerenciar transações financeiras, per
   - MySQL
 
 ## Passos para Configuração
-git clone 
+  1.Clonar o Repositório
+  - git clone https://github.com/John1Souza/CRUD.git
+  - cd CRUD
+  2.Configurar o Banco de Dados:
+    - Crie um banco de dados MySQL chamado transacoes_financeiras
+    - Execute o script SQL localizado em banco/banco.sql para criar as tabelas necessárias.
+      1. Acesse o MySQL no terminal:
+         - mysql -u root -p
