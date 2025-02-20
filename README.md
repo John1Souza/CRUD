@@ -94,7 +94,7 @@ Este projeto é uma aplicação web para gerenciar transações financeiras, per
 
   - Instale as dependências do Angular:
   
-        npm install -g @angular/cli
+        npm install
 
   - Inicie o servidor Angular:
 
