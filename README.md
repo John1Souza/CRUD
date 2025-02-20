@@ -72,7 +72,7 @@ Este projeto é uma aplicação web para gerenciar transações financeiras, per
           DB_PORT=3306
           DB_DATABASE=transacoes_financeiras
           DB_USERNAME=root
-          DB_PASSWORD=sua_senha
+          DB_PASSWORD=admin
       
    - Execute as migrations:
 
