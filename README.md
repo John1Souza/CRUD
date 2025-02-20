@@ -49,10 +49,12 @@ Este projeto é uma aplicação web para gerenciar transações financeiras, per
 
         mysql -u root -p
 
-  Crie o banco de dados (se necessário):
+   - Crie o banco de dados (se necessário):
 
-    CREATE DATABASE transacoes_financeiras;
-      
+
+         CREATE DATABASE transacoes_financeiras;
+
+  - Defina uma senha ou não.
   #### Configurar o Backend:
   - Navegue ate a pasta backend:
 
@@ -72,7 +74,7 @@ Este projeto é uma aplicação web para gerenciar transações financeiras, per
           DB_PORT=3306
           DB_DATABASE=transacoes_financeiras
           DB_USERNAME=root
-          DB_PASSWORD=admin
+          DB_PASSWORD=sua_senha
       
    - Execute as migrations:
 
