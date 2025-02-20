@@ -66,6 +66,9 @@ Este projeto é uma aplicação web para gerenciar transações financeiras, per
    - Instale as dependências do Laravel:
     
           composer install
+   - Copiar o conteudo de .env.example para .env
+
+         cp .env.example .env
      
    - Configure o arquivo .env com as credenciais do banco de dados:
       
